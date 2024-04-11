@@ -98,13 +98,14 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
 
     const textureModel = useLoader(TextureLoader, `/assets/texture/${texture}.jpg`);
     return (
-        <>
+        <group 
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
+        >
             <mesh
                 ref={frontRef}
                 position={positionFront}
                 scale={scaleFront}
-                onPointerOver={handlePointerOver}
-                onPointerOut={handlePointerOut}
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
@@ -113,8 +114,6 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 ref={backRef}
                 position={positionBack}
                 scale={scaleBack}
-                onPointerOver={handlePointerOver}
-                onPointerOut={handlePointerOut}
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
@@ -123,8 +122,6 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 ref={leftRef}
                 position={positionLeft}
                 scale={scaleLeft}
-                onPointerOver={handlePointerOver}
-                onPointerOut={handlePointerOut}
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
@@ -133,8 +130,6 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 ref={rightRef}
                 position={positionRight}
                 scale={scaleRight}
-                onPointerOver={handlePointerOver}
-                onPointerOut={handlePointerOut}
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
@@ -143,8 +138,6 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 ref={bottomRef}
                 position={positionBottom}
                 scale={scaleBottom}
-                onPointerOver={handlePointerOver}
-                onPointerOut={handlePointerOut}
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
@@ -153,13 +146,11 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 ref={handleRef}
                 position={positionHandle}
                 scale={scaleHandle}
-                onPointerOver={handlePointerOver}
-                onPointerOut={handlePointerOut}
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
             </mesh>
-        </>
+        </group>
     );
 };
 
