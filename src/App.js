@@ -1,25 +1,52 @@
 import * as THREE from 'three';
-import { useState } from "react"
-import { Canvas } from "@react-three/fiber"
+import { useState, useEffect } from "react"
+import { Canvas, useThree } from "@react-three/fiber"
 import { CameraControls, SoftShadows } from "@react-three/drei"
 import { useControls } from "leva"
 import { Scene } from "./Scene"
 import RadioGroup from './Components/RadioGroup';
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(1, 2, 12); // Set the camera position
+camera.position.set(1, 2, 12);
 
 const colors = ['gray', 'black', 'white', 'red', 'green', 'blue'];
 const textures = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6', 'style7', 'style8', 'style9', 'style10'];
+const mappingTypes = ['NoToneMapping', 'LinearToneMapping', 'ReinhardToneMapping', 'CineonToneMapping', 'ACESFilmicToneMapping']
+
+function ToneMapping(type) {
+  const { gl, scene } = useThree(({ gl, scene }) => ({ gl, scene }));
+  useEffect(() => {
+
+    gl.toneMapping = THREE.NoToneMapping;
+    if ( type.type === 'LinearToneMapping' )
+      gl.toneMapping = THREE.LinearToneMapping;
+    else if ( type.type === 'ReinhardToneMapping' )
+      gl.toneMapping = THREE.ReinhardToneMapping;
+    else if ( type.type === 'CineonToneMapping' )
+      gl.toneMapping = THREE.CineonToneMapping;
+    else if ( type.type === 'ACESFilmicToneMapping' )
+      gl.toneMapping = THREE.ACESFilmicToneMapping;
+      
+    gl.toneMappingExposure = 1.5;
+    scene.traverse((object) => {
+      if (object.material) {
+        object.material.needsUpdate = true;
+      }
+    });
+
+  }, [gl, scene, type]);
+  return <></>;
+}
 
 export const App = () => {
-  const [scaleHFactor, setScaleHFactor] = useState(1);
-  const [scaleVFactor, setScaleVFactor] = useState(1);
-  const [scaleDFactor, setScaleDFactor] = useState(1);
+  const [scaleHFactor, setScaleHFactor] = useState(1.5);
+  const [scaleVFactor, setScaleVFactor] = useState(1.5);
+  const [scaleDFactor, setScaleDFactor] = useState(1.5);
   const [deskColor, setDeskColor] = useState('gray');
   const [texture, setTexture] = useState('style1');
   const [isLeg, setLegDisplay] = useState(true);
-  const [openDoor, setOpenDoor] = useState(false);
+  const [openDoor, setOpenDoor] = useState(true);
+  const [mappingType, setMappingType] = useState('NoToneMapping')
 
   const handleHScaleChange = (event) => {
     const scaleValue = parseFloat(event.target.value);
@@ -50,6 +77,10 @@ export const App = () => {
 
   const handleTextureSelect = (selectedOption) => {
     setTexture(selectedOption);
+  }
+
+  const handleMappingTypeSelect = (selectedOption) => {
+    setMappingType(selectedOption);
   }
 
   const { enabled, ...config } = useControls({
@@ -90,18 +121,18 @@ export const App = () => {
           <input type="checkbox" checked={openDoor} onChange={handleOpenDoor} />
         </label>
       </div>
-      {/* <div>
-        <a>Desk Color : </a>
-        <RadioGroup options={colors} onSelect={handleColorSelect} />
-      </div> */}
       <div>
         <a>Texture : </a>
         <RadioGroup options={textures} onSelect={handleTextureSelect} />
       </div>
+      <div>
+        <a>Mapping Type : </a>
+        <RadioGroup options={mappingTypes} onSelect={handleMappingTypeSelect} />
+      </div>
       <Canvas shadows camera={camera}>
+        <ToneMapping type={mappingType}/>
         <CameraControls makeDefault />
         {enabled && <SoftShadows {...config} />}
-        <fog attach="fog" args={["white", 0, 40]} />
         <ambientLight intensity={0.5} />
         <directionalLight castShadow position={[2.5, 8, 5]} intensity={1.5} shadow-mapSize={1024}>
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
@@ -118,6 +149,5 @@ export const App = () => {
         </group>
       </Canvas>
     </>
-
   )
 }

@@ -4,6 +4,7 @@ import { useLoader } from 'react-three-fiber';
 
 const BoxModel = ({ position, scale, color, rotation, animationType, texture }) => {
   const textureModel = useLoader(TextureLoader, `/assets/texture/${texture}.jpg`);
+  
   return (
     <mesh
       position={position}

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useFrame, useLoader } from 'react-three-fiber';
 import { TextureLoader } from 'three';
+import { Decal, Float, useTexture } from '@react-three/drei';
 
 const BoxGroupModel = ({ position, scale, color, rotation, animationType, texture }) => {
     const frontRef = useRef();
@@ -51,22 +52,22 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 if (frontRef.current.position.z >= positionFront[2] + 1)
                     return;
 
-                frontRef.current.position.z += 0.1;
-                backRef.current.position.z += 0.1;
-                leftRef.current.position.z += 0.1;
-                rightRef.current.position.z += 0.1;
-                bottomRef.current.position.z += 0.1;
-                handleRef.current.position.z += 0.1;
+                frontRef.current.position.z += 0.03;
+                backRef.current.position.z += 0.03;
+                leftRef.current.position.z += 0.03;
+                rightRef.current.position.z += 0.03;
+                bottomRef.current.position.z += 0.03;
+                handleRef.current.position.z += 0.03;
             } else if (animationType == 2) {
                 if (frontRef.current.position.z >= positionFront[2] + 1)
                     return;
-                
-                frontRef.current.position.z += 0.1;
-                backRef.current.position.z += 0.1;
-                leftRef.current.position.z += 0.1;
-                rightRef.current.position.z += 0.1;
-                bottomRef.current.position.z += 0.1;
-                handleRef.current.position.z += 0.1;
+
+                frontRef.current.position.z += 0.03;
+                backRef.current.position.z += 0.03;
+                leftRef.current.position.z += 0.03;
+                rightRef.current.position.z += 0.03;
+                bottomRef.current.position.z += 0.03;
+                handleRef.current.position.z += 0.03;
             }
         } else {
             if (animationType == 1) {
@@ -98,7 +99,7 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
 
     const textureModel = useLoader(TextureLoader, `/assets/texture/${texture}.jpg`);
     return (
-        <group 
+        <group
             onPointerOver={handlePointerOver}
             onPointerOut={handlePointerOut}
         >
@@ -109,6 +110,7 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
             >
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial map={textureModel} />
+                {/* <Decal position={[0, 0, 1]} rotation={[2 * Math.PI, 0, 6.25]} scale={1} map={textureModel} flatShading /> */}
             </mesh>
             <mesh
                 ref={backRef}
