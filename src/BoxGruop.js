@@ -70,21 +70,28 @@ const BoxGroupModel = ({ position, scale, color, rotation, animationType, textur
                 handleRef.current.position.z += 0.03;
             }
         } else {
+            
             if (animationType == 1) {
                 // boxRef.current.rotation.y = originalRotation.y;
-                frontRef.current.position.z = positionFront[2];
-                backRef.current.position.z = positionBack[2];
-                leftRef.current.position.z = positionLeft[2];
-                rightRef.current.position.z = positionRight[2];
-                bottomRef.current.position.z = positionBottom[2];
-                handleRef.current.position.z = positionHandle[2];
+                if (frontRef.current.position.z <= positionFront[2])
+                    return;
+
+                frontRef.current.position.z -= 0.03;
+                backRef.current.position.z -= 0.03;
+                leftRef.current.position.z -= 0.03;
+                rightRef.current.position.z -= 0.03;
+                bottomRef.current.position.z -= 0.03;
+                handleRef.current.position.z -= 0.03;
             } else if (animationType == 2) {
-                frontRef.current.position.z = positionFront[2];
-                backRef.current.position.z = positionBack[2];
-                leftRef.current.position.z = positionLeft[2];
-                rightRef.current.position.z = positionRight[2];
-                bottomRef.current.position.z = positionBottom[2];
-                handleRef.current.position.z = positionHandle[2];
+                if (frontRef.current.position.z <= positionFront[2])
+                    return;
+
+                frontRef.current.position.z -= 0.03;
+                backRef.current.position.z -= 0.03;
+                leftRef.current.position.z -= 0.03;
+                rightRef.current.position.z -= 0.03;
+                bottomRef.current.position.z -= 0.03;
+                handleRef.current.position.z -= 0.03;
             }
         }
     });
